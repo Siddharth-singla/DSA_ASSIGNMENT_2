@@ -1,122 +1,67 @@
 #include <iostream>
 using namespace std;
 
-void transpose(int rows[],int cols[], int values[], int count){\
+int main() {
+    int rows, cols;
+    cin >> rows >> cols;
 
-    int trows[100], tcols[100], tvalues[100];
-    
-    for (int i=0;i<count;i++){
-        trows[i]=cols[i];
-        tcols[i]=rows[i];
-        tvalues[i]=values[i];
-    }
+    int n1;
+    cin >> n1;
+    int A[30][3];
+    A[0][0] = rows; A[0][1] = cols; A[0][2] = n1;
+    for (int i = 1; i <= n1; i++) cin >> A[i][0] >> A[i][1] >> A[i][2];
 
-    cout<<"\nTranspose of the matrix is: ";
-    cout << "\nRows\tCol\tValue";
-    for (int i=0;i<count;i++){
-        cout<<"\n"<<trows[i]<<"\t"<<tcols[i]<<"\t"<<tvalues[i]<<"\t";
-    }
+    int n2;
+    cin >> n2;
+    int B[30][3];
+    B[0][0] = rows; B[0][1] = cols; B[0][2] = n2;
+    for (int i = 1; i <= n2; i++) cin >> B[i][0] >> B[i][1] >> B[i][2];
 
-}
-
-void addition(int rows1[],int cols1[], int values1[], int count1,int rows2[],int cols2[], int values2[], int count2){
-    
-    int rows3[count1+count2],cols3[count1+count2],values3[count1+count2],count3=0;
-
-    int i=0,j=0;
-    while(i<count1 && j<count2){
-        if(rows1[i]==rows2[j] && cols1[i]==cols2[j]){
-            rows3[count3]=rows1[i];
-            cols3[count3]=cols1[i];
-            values3[count3]=values1[i]+values2[j];
-            count3++;
-            i++;
-            j++;
-        }
-        else if(rows1[i]<rows2[j]||rows1[i]==rows2[j]&&cols1[i]<cols2[j]){
-            rows3[count3]=rows1[i];
-            cols3[count3]=cols1[i];
-            values3[count3]=values1[i];
-            count3++;
-            i++;
-        }   
-        else if(rows1[i]>rows2[j]||rows1[i]==rows2[j]&&cols1[j]<cols1[i]){
-            rows3[count3]=rows1[j];
-            cols3[count3]=cols1[j];
-            values3[count3]=values1[j];
-            count3++;
-            j++;
-        }
-    }
-    while(i<count1){
-        rows3[count3]=rows1[i];
-        cols3[count3]=cols1[i];
-        values3[count3]=values1[i];
-        count3++;
-        i++;
-    }
-
-    while(j<count2){
-        rows3[count3]=rows2[j];
-        cols3[count3]=cols2[j];
-        values3[count3]=values2[j];
-        count3++;
-        j++;
-    }
-
-    cout<<"\nAdditon of both matrix is: \n";
-    cout << "\nRows\tCol\tValue";
-    for (int i=0;i<count3;i++){
-        cout<<"\n"<<rows3[i]<<"\t"<<cols3[i]<<"\t"<<values3[i]<<"\t";
-    }
-
-}
-
-int main(){
-
-    int x,y;
-
-    cout<<"Enter the size for the matrix";
-    cout<<"\nx: ";
-    cin>>x;
-
-    cout<<"y: ";
-    cin>>y;
-
-    int arr[x][y];
-
-    cout<<"Enter the values for the matrix: ";
-    for (int i=0;i<x;i++){
-        for(int j=0;j<y;j++){
-            cout<<": ";
-            cin>>arr[i][j];
-        }
-    }
-
-    int rows[x*y];
-    int cols[x*y];
-    int values[x*y];
-    int count=0;
-
-    for (int i=0;i<x;i++){
-        for(int j=0;j<y;j++){
-            if(arr[i][j]!=0){
-                rows[count]=i;
-                cols[count]=j;
-                values[count]=arr[i][j];
-                count++;
+    int trans[30][3];
+    trans[0][0] = cols; trans[0][1] = rows; trans[0][2] = n1;
+    int k = 1;
+    for (int c = 0; c < cols; c++) {
+        for (int i = 1; i <= n1; i++) {
+            if (A[i][1] == c) {
+                trans[k][0] = A[i][1];
+                trans[k][1] = A[i][0];
+                trans[k][2] = A[i][2];
+                k++;
             }
         }
     }
-    cout << "Row\tCol\tValue";
-    for (int i=0;i<count;i++){
-        cout<<"\n"<<rows[i]<<"\t"<<cols[i]<<"\t"<<values[i]<<"\t";
+
+    cout << "Transpose:\n";
+    for (int i = 0; i <= n1; i++)
+        cout << trans[i][0] << " " << trans[i][1] << " " << trans[i][2] << "\n";
+
+    int C[60][3];
+    C[0][0] = rows; C[0][1] = cols; C[0][2] = 0;
+    int i = 1, j = 1, p = 1;
+
+    while (i <= n1 && j <= n2) {
+        if (A[i][0] < B[j][0] || (A[i][0] == B[j][0] && A[i][1] < B[j][1])) {
+            C[p][0] = A[i][0]; C[p][1] = A[i][1]; C[p][2] = A[i][2];
+            i++; p++;
+        } else if (B[j][0] < A[i][0] || (B[j][0] == A[i][0] && B[j][1] < A[i][1])) {
+            C[p][0] = B[j][0]; C[p][1] = B[j][1]; C[p][2] = B[j][2];
+            j++; p++;
+        } else {
+            int sum = A[i][2] + B[j][2];
+            if (sum != 0) {
+                C[p][0] = A[i][0]; C[p][1] = A[i][1]; C[p][2] = sum;
+                p++;
+            }
+            i++; j++;
+        }
     }
+    while (i <= n1) { C[p][0] = A[i][0]; C[p][1] = A[i][1]; C[p][2] = A[i][2]; i++; p++; }
+    while (j <= n2) { C[p][0] = B[j][0]; C[p][1] = B[j][1]; C[p][2] = B[j][2]; j++; p++; }
+    C[0][2] = p - 1;
 
-    transpose(rows,cols,values,count);
-    addition(rows,cols,values,count,rows,cols,values,count);
-
+    cout << "Addition:\n";
+    for (int t = 0; t < p; t++)
+        cout << C[t][0] << " " << C[t][1] << " " << C[t][2] << "\n";
 
     return 0;
-
 }
