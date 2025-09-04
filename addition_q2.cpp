@@ -1,20 +1,22 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <string>
 using namespace std;
+bool isInBoth(const string& part, const string& x, const string& y) {
+    return (x.find(part) < x.size()) && (y.find(part) < y.size());
+}
 
-bool canSplit(string s) {
+bool canSplit(const string& s) {
     int n = s.size();
-    for (int i = 1; i < n - 1; i++) {           
-        for (int j = i + 1; j < n; j++) {      
+    if (n < 3) return false;         
+
+    for (int i = 1; i < n - 1; ++i) {      
+        for (int j = i + 1; j < n; ++j) { 
             string A = s.substr(0, i);
             string B = s.substr(i, j - i);
             string C = s.substr(j);
 
-            // Check each possibility
-            if ((B.find(A) != string::npos && C.find(A) != string::npos) ||
-                (A.find(B) != string::npos && C.find(B) != string::npos) ||
-                (A.find(C) != string::npos && B.find(C) != string::npos)) {
+            if (isInBoth(A, B, C) || isInBoth(B, A, C) || isInBoth(C, A, B))
                 return true;
-            }
         }
     }
     return false;
