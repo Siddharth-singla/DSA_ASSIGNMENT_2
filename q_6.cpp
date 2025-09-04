@@ -72,17 +72,6 @@ void addition(int rows1[],int cols1[], int values1[], int count1,int rows2[],int
 
 }
 
-void multiplication(int rows1[],int cols1[], int values1[], int count1,int rows2[],int cols2[], int values2[], int count2,int sizeMatrix){
-
-    int rows3[sizeMatrix],cols3[sizeMatrix],values3[sizeMatrix],count3=0;    
-
-    cout<<"\nMultiplication of both matrix is: \n";
-    cout << "\nRows\tCol\tValue";
-    for (int i=0;i<count3;i++){
-        cout<<"\n"<<rows3[i]<<"\t"<<cols3[i]<<"\t"<<values3[i]<<"\t";
-    }
-}
-
 int main(){
 
     int x,y;
@@ -126,7 +115,8 @@ int main(){
 
     transpose(rows,cols,values,count);
     addition(rows,cols,values,count,rows,cols,values,count);
-    multiplication(rows,cols,values,count,rows,cols,values,count,x*y);
+
 
     return 0;
+
 }
