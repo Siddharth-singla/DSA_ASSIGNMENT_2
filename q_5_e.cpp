@@ -5,7 +5,6 @@ class SymmetricMatrix {
     vector<int> data; 
     int n;
 
-    // Map 2D -> 1D for lower triangle
     int index(int i, int j) const {
         return (i * (i + 1)) / 2 + j; 
     }
@@ -46,3 +45,4 @@ int main() {
     sm.print();
     return 0;
 }
+
